@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { User as UserIcon, Shield, Mail, Plus, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import API_URL from '../config';
 
 export default function Team() {
   const [users, setUsers] = useState([]);
@@ -13,7 +14,7 @@ export default function Team() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.get('http://localhost:5000/api/users', {
+      const { data } = await axios.get(`${API_URL}/api/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(data);
@@ -28,7 +29,7 @@ export default function Team() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', form);
+      await axios.post(`${API_URL}/api/auth/signup`, form);
       toast.success(`${form.name} added successfully!`);
       setShowModal(false);
       setForm({ name: '', email: '', password: '', role: 'member' });

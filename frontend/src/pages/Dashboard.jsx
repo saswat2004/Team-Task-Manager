@@ -3,6 +3,7 @@ import axios from 'axios';
 import { CheckCircle, Clock, AlertCircle, MessageSquare, Paperclip, LayoutDashboard, TrendingUp, PieChart as PieChartIcon } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area, Legend, Label } from 'recharts';
 import { io } from 'socket.io-client';
+import API_URL from '../config';
 
 export default function DashboardHome() {
   const [tasks, setTasks] = useState([]);
@@ -14,10 +15,10 @@ export default function DashboardHome() {
       try {
         const token = localStorage.getItem('token');
         const [tasksRes, projectsRes, activitiesRes, usersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('http://localhost:5000/api/activities', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('http://localhost:5000/api/users', { headers: { Authorization: `Bearer ${token}` } })
+          axios.get(`${API_URL}/api/tasks`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/api/projects`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/api/activities`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/api/users`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
         setTasks(tasksRes.data);
         setProjects(projectsRes.data);
@@ -30,7 +31,7 @@ export default function DashboardHome() {
 
   useEffect(() => {
     fetchData();
-    const socket = io('http://localhost:5000');
+    const socket = io(API_URL);
     socket.on('taskUpdated', fetchData);
     return () => socket.disconnect();
   }, []);

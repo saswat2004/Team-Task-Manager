@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell } from 'recharts';
 import toast from 'react-hot-toast';
 import { io } from 'socket.io-client';
+import API_URL from '../config';
 
 export default function TaskBoard() {
   const [tasks, setTasks] = useState([]);
@@ -30,9 +31,9 @@ export default function TaskBoard() {
     try {
       const token = localStorage.getItem('token');
       const [tasksRes, projectsRes, usersRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://localhost:5000/api/users', { headers: { Authorization: `Bearer ${token}` } })
+        axios.get(`${API_URL}/api/tasks`, { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(`${API_URL}/api/projects`, { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(`${API_URL}/api/users`, { headers: { Authorization: `Bearer ${token}` } })
       ]);
       setTasks(tasksRes.data);
       setProjects(projectsRes.data);
@@ -49,7 +50,7 @@ export default function TaskBoard() {
 
   useEffect(() => {
     fetchData();
-    const socket = io('http://localhost:5000');
+    const socket = io(API_URL);
     socket.on('taskUpdated', fetchData);
     return () => socket.disconnect();
   }, []);
@@ -58,14 +59,14 @@ export default function TaskBoard() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/tasks', { ...newTask, projectId: activeProject }, {
+      await axios.post(`${API_URL}/api/tasks`, { ...newTask, projectId: activeProject }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowTaskModal(false);
       setNewTask({ title: '', description: '', status: 'todo', dueDate: '', projectId: '', assignedTo: '' });
       toast.success('Task created successfully');
       
-      const { data } = await axios.get('http://localhost:5000/api/tasks', {
+      const { data } = await axios.get(`${API_URL}/api/tasks`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTasks(data);
@@ -77,7 +78,7 @@ export default function TaskBoard() {
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/tasks/${taskId}`, { status: newStatus }, {
+      await axios.put(`${API_URL}/api/tasks/${taskId}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Task updated');
@@ -91,7 +92,7 @@ export default function TaskBoard() {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/tasks/${taskId}`, {
+      await axios.delete(`${API_URL}/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowTaskDetailsModal(null);
@@ -105,7 +106,7 @@ export default function TaskBoard() {
   const updateTaskDetails = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/tasks/${showTaskDetailsModal._id}`, {
+      await axios.put(`${API_URL}/api/tasks/${showTaskDetailsModal._id}`, {
         title: showTaskDetailsModal.title,
         description: showTaskDetailsModal.description,
         dueDate: showTaskDetailsModal.dueDate,
@@ -145,7 +146,7 @@ export default function TaskBoard() {
     if (!newComment.trim()) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/tasks/${showTaskDetailsModal._id}/comments`, { text: newComment }, {
+      await axios.post(`${API_URL}/api/tasks/${showTaskDetailsModal._id}/comments`, { text: newComment }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNewComment('');
@@ -164,7 +165,7 @@ export default function TaskBoard() {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      await axios.post(`http://localhost:5000/api/tasks/${showTaskDetailsModal._id}/attachments`, formData, {
+      await axios.post(`${API_URL}/api/tasks/${showTaskDetailsModal._id}/attachments`, formData, {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
       });
       setSelectedFile(null);
@@ -508,7 +509,7 @@ export default function TaskBoard() {
               <h4>Attachments</h4>
               {showTaskDetailsModal.Attachments && showTaskDetailsModal.Attachments.map(att => (
                 <div key={att._id} style={{fontSize: '13px', margin: '4px 0'}}>
-                  <a href={`http://localhost:5000/${att.path}`} target="_blank" rel="noreferrer" style={{color: 'var(--primary)', textDecoration: 'none'}}>
+                  <a href={`${API_URL}/${att.path}`} target="_blank" rel="noreferrer" style={{color: 'var(--primary)', textDecoration: 'none'}}>
                     <Paperclip size={12} /> {att.filename}
                   </a>
                 </div>

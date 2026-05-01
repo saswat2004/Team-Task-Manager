@@ -4,6 +4,7 @@ import { Plus, Trash2, Edit2, Loader2, Users } from 'lucide-react';
 import { BarChart, Bar, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import toast from 'react-hot-toast';
 import { io } from 'socket.io-client';
+import API_URL from '../config';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -19,8 +20,8 @@ export default function Projects() {
     try {
       const token = localStorage.getItem('token');
       const [projectsRes, tasksRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } })
+        axios.get(`${API_URL}/api/projects`, { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(`${API_URL}/api/tasks`, { headers: { Authorization: `Bearer ${token}` } })
       ]);
       setProjects(projectsRes.data);
       setTasks(tasksRes.data);
@@ -33,7 +34,7 @@ export default function Projects() {
 
   useEffect(() => {
     fetchData();
-    const socket = io('http://localhost:5000');
+    const socket = io(API_URL);
     socket.on('taskUpdated', fetchData);
     return () => socket.disconnect();
   }, []);
@@ -42,7 +43,7 @@ export default function Projects() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/projects', newProject, {
+      await axios.post(`${API_URL}/api/projects`, newProject, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowProjectModal(false);
@@ -58,7 +59,7 @@ export default function Projects() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/projects/${editingProject._id}`, {
+      await axios.put(`${API_URL}/api/projects/${editingProject._id}`, {
         name: editingProject.name,
         description: editingProject.description
       }, {
@@ -76,7 +77,7 @@ export default function Projects() {
     if (!confirm('Are you sure you want to delete this project?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/projects/${id}`, {
+      await axios.delete(`${API_URL}/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Project deleted');

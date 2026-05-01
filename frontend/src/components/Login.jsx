@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Mail, Lock, User, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 export default function Login({ setUser }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -30,7 +31,7 @@ export default function Login({ setUser }) {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
       const payload = isLogin ? { email, password } : { name, email, password, role };
       
-      const { data } = await axios.post(`http://localhost:5000${endpoint}`, payload);
+      const { data } = await axios.post(`${API_URL}${endpoint}`, payload);
       
       if (isLogin) {
         localStorage.setItem('token', data.token);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import { LogOut, Plus, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
 export default function Dashboard({ user, setUser }) {
@@ -16,7 +17,7 @@ export default function Dashboard({ user, setUser }) {
   const fetchProjects = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.get('http://localhost:5000/api/projects', {
+      const { data } = await axios.get(`${API_URL}/api/projects`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProjects(data);
@@ -29,7 +30,7 @@ export default function Dashboard({ user, setUser }) {
     try {
       const token = localStorage.getItem('token');
       const projectIdParam = activeProject ? `?projectId=${activeProject._id}` : '';
-      const { data } = await axios.get(`http://localhost:5000/api/tasks${projectIdParam}`, {
+      const { data } = await axios.get(`${API_URL}/api/tasks${projectIdParam}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTasks(data);
@@ -56,7 +57,7 @@ export default function Dashboard({ user, setUser }) {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/projects', newProject, {
+      await axios.post(`${API_URL}/api/projects`, newProject, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowProjectModal(false);
@@ -72,7 +73,7 @@ export default function Dashboard({ user, setUser }) {
     if (!activeProject) return alert('Select a project first');
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/tasks', { ...newTask, projectId: activeProject._id }, {
+      await axios.post(`${API_URL}/api/tasks`, { ...newTask, projectId: activeProject._id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowTaskModal(false);
@@ -86,7 +87,7 @@ export default function Dashboard({ user, setUser }) {
   const updateTaskStatus = async (taskId, status) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/tasks/${taskId}`, { status }, {
+      await axios.put(`${API_URL}/api/tasks/${taskId}`, { status }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchTasks();
