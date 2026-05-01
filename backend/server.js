@@ -18,6 +18,7 @@ const { apiLimiter, authLimiter } = require('./middleware/rateLimiter');
 const logger = require('./utils/logger');
 
 const app = express();
+app.set('trust proxy', 1); // Trust Railway's reverse proxy
 const server = http.createServer(app);
 const FRONTEND_URL = process.env.FRONTEND_URL || '*';
 const io = new Server(server, {
