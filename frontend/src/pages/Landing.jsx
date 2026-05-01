@@ -190,6 +190,82 @@ export default function Landing() {
           >
             <Link to="/login" className="btn" style={{ padding: '16px 32px', fontSize: '18px' }}>Get Started</Link>
           </motion.div>
+
+          {/* Trusted-by Stats Counter Strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.7 }}
+            style={{ display: 'flex', justifyContent: 'center', gap: '48px', marginTop: '64px', flexWrap: 'wrap' }}
+          >
+            {[
+              { value: '50+', label: 'Active Teams', icon: '🏢' },
+              { value: '2,400+', label: 'Tasks Completed', icon: '✅' },
+              { value: '99.9%', label: 'Uptime', icon: '⚡' },
+              { value: '4.8★', label: 'User Rating', icon: '💎' },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.08, y: -4 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                style={{
+                  textAlign: 'center', padding: '20px 28px', borderRadius: '16px',
+                  background: 'rgba(99, 102, 241, 0.06)', backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(99, 102, 241, 0.15)', cursor: 'default',
+                  minWidth: '130px',
+                }}
+              >
+                <div style={{ fontSize: '28px', marginBottom: '6px' }}>{stat.icon}</div>
+                <div style={{ fontSize: '28px', fontWeight: '800', color: 'var(--primary)', letterSpacing: '-1px' }}>{stat.value}</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: '500', marginTop: '4px' }}>{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* ═══ Feature Highlights — Icon Grid ═══ */}
+        <section style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{ textAlign: 'center', marginBottom: '56px' }}
+            >
+              <span style={{ display: 'inline-block', padding: '6px 16px', borderRadius: '20px', background: 'rgba(99,102,241,0.12)', color: 'var(--primary)', fontSize: '13px', fontWeight: '600', marginBottom: '16px', letterSpacing: '0.5px' }}>
+                ✨ CORE FEATURES
+              </span>
+              <h2 style={{ fontSize: '36px', letterSpacing: '-0.5px' }}>Everything You Need to Ship Faster</h2>
+            </motion.div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+              {[
+                { icon: '📋', title: 'Kanban Board', desc: 'Drag-and-drop tasks across To Do, In Progress, and Done columns', gradient: 'linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08))' },
+                { icon: '📊', title: 'Live Analytics', desc: 'Real-time charts showing team velocity, burndown, and status breakdowns', gradient: 'linear-gradient(135deg, rgba(16,185,129,0.12), rgba(34,197,94,0.08))' },
+                { icon: '👥', title: 'Team Roles', desc: 'Admin and Member roles with granular access control for every action', gradient: 'linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.08))' },
+                { icon: '🔔', title: 'Real-Time Sync', desc: 'WebSocket-powered live updates — see changes as they happen', gradient: 'linear-gradient(135deg, rgba(239,68,68,0.12), rgba(248,113,113,0.08))' },
+                { icon: '💬', title: 'Task Comments', desc: 'Collaborate with contextual discussions directly on each task', gradient: 'linear-gradient(135deg, rgba(59,130,246,0.12), rgba(96,165,250,0.08))' },
+                { icon: '📎', title: 'File Attachments', desc: 'Attach documents, images, and files to any task for full context', gradient: 'linear-gradient(135deg, rgba(168,85,247,0.12), rgba(192,132,252,0.08))' },
+                { icon: '📧', title: 'Email Alerts', desc: 'Automatic email notifications when tasks are assigned or updated', gradient: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(244,114,182,0.08))' },
+                { icon: '🛡️', title: 'Enterprise Security', desc: 'JWT authentication, rate limiting, Helmet.js headers, and encrypted passwords', gradient: 'linear-gradient(135deg, rgba(20,184,166,0.12), rgba(45,212,191,0.08))' },
+              ].map((feat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
+                  className="glass-panel"
+                  style={{ padding: '28px', cursor: 'default', background: feat.gradient, borderRadius: '16px', transition: 'box-shadow 0.3s' }}
+                >
+                  <div style={{ fontSize: '36px', marginBottom: '14px' }}>{feat.icon}</div>
+                  <h4 style={{ margin: '0 0 8px', fontSize: '17px', fontWeight: '700' }}>{feat.title}</h4>
+                  <p style={{ margin: 0, fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feat.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Animated Wave Divider */}
@@ -414,6 +490,132 @@ export default function Landing() {
             </div>
           </div>
           </div>
+        </section>
+
+        {/* ═══ Testimonials Section ═══ */}
+        <section style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{ textAlign: 'center', marginBottom: '48px' }}
+            >
+              <span style={{ display: 'inline-block', padding: '6px 16px', borderRadius: '20px', background: 'rgba(16,185,129,0.12)', color: 'var(--success)', fontSize: '13px', fontWeight: '600', marginBottom: '16px', letterSpacing: '0.5px' }}>
+                💬 TESTIMONIALS
+              </span>
+              <h2 style={{ fontSize: '36px', letterSpacing: '-0.5px' }}>Loved by Teams Everywhere</h2>
+            </motion.div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+              {[
+                { name: 'Priya Sharma', role: 'Engineering Lead', avatar: '👩‍💻', text: 'We switched from Trello and haven\'t looked back. The real-time sync and role-based access are exactly what we needed.', color: '#6366F1' },
+                { name: 'Rahul Verma', role: 'Product Manager', avatar: '👨‍💼', text: 'The dashboard analytics give me instant visibility into sprint progress. No more chasing updates in Slack threads.', color: '#10B981' },
+                { name: 'Ananya Patel', role: 'Startup Founder', avatar: '👩‍🚀', text: 'Clean UI, fast, and no learning curve. Our team of 12 was productive on day one. The Kanban board is beautifully done.', color: '#F59E0B' },
+              ].map((t, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className="glass-panel"
+                  style={{ padding: '28px', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}
+                >
+                  {/* Accent bar */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: t.color }} />
+                  <div style={{ fontSize: '32px', marginBottom: '16px' }}>"</div>
+                  <p style={{ fontSize: '14.5px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '20px', fontStyle: 'italic' }}>
+                    {t.text}
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '50%',
+                      background: `linear-gradient(135deg, ${t.color}, ${t.color}88)`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px'
+                    }}>
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: '700', fontSize: '14px' }}>{t.name}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{t.role}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ Tech Stack Strip ═══ */}
+        <section style={{ padding: '40px 24px', position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: '600', letterSpacing: '1px', marginBottom: '24px', textTransform: 'uppercase' }}>
+              Built With Industry-Standard Technologies
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+              {[
+                { name: 'React', color: '#61DAFB' },
+                { name: 'Node.js', color: '#68A063' },
+                { name: 'PostgreSQL', color: '#336791' },
+                { name: 'Socket.IO', color: '#010101' },
+                { name: 'JWT', color: '#D63AFF' },
+                { name: 'Vite', color: '#BD34FE' },
+                { name: 'Railway', color: '#0B0D17' },
+              ].map((tech, i) => (
+                <motion.span
+                  key={i}
+                  whileHover={{ scale: 1.1 }}
+                  style={{
+                    padding: '8px 18px', borderRadius: '20px',
+                    background: `${tech.color}18`, color: tech.color,
+                    fontSize: '13px', fontWeight: '700', border: `1px solid ${tech.color}30`,
+                    cursor: 'default',
+                  }}
+                >
+                  {tech.name}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ Final CTA Banner ═══ */}
+        <section style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            style={{
+              maxWidth: '900px', margin: '0 auto', padding: '56px 40px',
+              borderRadius: '24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%)',
+              boxShadow: '0 24px 48px rgba(99, 102, 241, 0.3)',
+            }}
+          >
+            {/* Decorative circles */}
+            <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ position: 'absolute', bottom: '-60px', left: '-30px', width: '250px', height: '250px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+
+            <h2 style={{ fontSize: '36px', color: 'white', marginBottom: '16px', letterSpacing: '-0.5px', position: 'relative' }}>
+              Ready to Transform Your Workflow?
+            </h2>
+            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px', lineHeight: 1.6, position: 'relative' }}>
+              Join teams who've already made the switch. Set up in 30 seconds — no credit card required.
+            </p>
+            <Link
+              to="/login"
+              className="btn"
+              style={{
+                padding: '16px 40px', fontSize: '18px', fontWeight: '700',
+                background: 'white', color: '#6366F1', borderRadius: '12px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)', position: 'relative',
+              }}
+            >
+              Start Free Now →
+            </Link>
+          </motion.div>
         </section>
       </main>
 
